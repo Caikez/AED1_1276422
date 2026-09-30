@@ -12,31 +12,65 @@ Uso de IA   :
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef struct No {
+    int carta;
+    struct No *prox;
+} No;
 
-typedef struct celula{
-    int numero;
-    struct celula *seg;
-} Cel;
+int main() {
+    int n;
 
+    while (scanf("%d", &n) == 1 && n != 0) {
 
-int main(){
-    int n, valor;
+        No *inicio = NULL;
+        No *fim = NULL;
 
-    while(scanf("%d", &n) && n != 0){
-        int carta = 1;
+        // Cria as cartas de 1 até n
+        for (int i = 1; i <= n; i++) {
+            No *novo = malloc(sizeof(No));
 
-        cel *p = malloc(n*sizeof(cel));
+            novo->carta = i;
+            novo->prox = NULL;
 
-        for(int i = 0; i < n; i++){
-            if (i < n-1) p[i].seg = &p[i+1];
-            else p[i].seg = NULL;
+            if (inicio == NULL) {
+                inicio = novo;
+                fim = novo;
+            } else {
+                fim->prox = novo;
+                fim = novo;
+            }
         }
 
+        printf("Discarded cards:");
 
+        int primeiro = 1;
+
+        while (inicio->prox != NULL) {
+
+            // Descarta a carta do topo
+            No *removido = inicio;
+            inicio = inicio->prox;
+
+            if (!primeiro)
+                printf(",");
+            printf(" %d", removido->carta);
+            primeiro = 0;
+
+            free(removido);
+
+            // Move a próxima carta para o final
+            No *movido = inicio;
+            inicio = inicio->prox;
+
+            movido->prox = NULL;
+            fim->prox = movido;
+            fim = movido;
+        }
+
+        printf("\nRemaining card: %d\n", inicio->carta);
+
+        free(inicio);
     }
-
-
-
 
     return 0;
 }
