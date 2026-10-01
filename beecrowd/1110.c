@@ -17,6 +17,37 @@ typedef struct No {
     struct No *prox;
 } No;
 
+
+// Retira o primeiro nó da lista
+No* retirar(No **inicio, No **fim) {
+    No *removido = *inicio;
+
+    *inicio = (*inicio)->prox;
+
+    if (*inicio == NULL)
+        *fim = NULL;
+
+    removido->prox = NULL;
+
+    return removido;
+}
+
+
+// Coloca um nó no final da lista
+void colocar(No **inicio, No **fim, No *novo) {
+
+    novo->prox = NULL;
+
+    if (*inicio == NULL) {
+        *inicio = novo;
+        *fim = novo;
+    } else {
+        (*fim)->prox = novo;
+        *fim = novo;
+    }
+}
+
+
 int main() {
     int n;
 
@@ -25,20 +56,15 @@ int main() {
         No *inicio = NULL;
         No *fim = NULL;
 
-        // Cria as cartas de 1 até n
+        // Criando as cartas
         for (int i = 1; i <= n; i++) {
+
             No *novo = malloc(sizeof(No));
 
             novo->carta = i;
             novo->prox = NULL;
 
-            if (inicio == NULL) {
-                inicio = novo;
-                fim = novo;
-            } else {
-                fim->prox = novo;
-                fim = novo;
-            }
+            colocar(&inicio, &fim, novo);
         }
 
         printf("Discarded cards:");
@@ -47,24 +73,23 @@ int main() {
 
         while (inicio->prox != NULL) {
 
-            // Descarta a carta do topo
-            No *removido = inicio;
-            inicio = inicio->prox;
+            // Retira a carta do topo
+            No *removido = retirar(&inicio, &fim);
 
             if (!primeiro)
                 printf(",");
+            
             printf(" %d", removido->carta);
+
             primeiro = 0;
 
             free(removido);
 
-            // Move a próxima carta para o final
-            No *movido = inicio;
-            inicio = inicio->prox;
+            // Retira a próxima carta
+            No *movido = retirar(&inicio, &fim);
 
-            movido->prox = NULL;
-            fim->prox = movido;
-            fim = movido;
+            // Coloca essa carta no final
+            colocar(&inicio, &fim, movido);
         }
 
         printf("\nRemaining card: %d\n", inicio->carta);
