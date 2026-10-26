@@ -6,7 +6,7 @@ Problema    : https://judge.beecrowd.com/pt/problems/view/1383
 Data        : 27/08/2026
 Objetivo    : Sudoku
 Dificuldade : 
-Uso de IA   : 
+Uso de IA   : Correção
 -------------------------------------------------------------------------- */
 
 #include <stdio.h>

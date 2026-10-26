@@ -1,7 +1,80 @@
+/* --------------------------------------------------------------------------
+Disciplina  : Algortimo e Estrutura de Dados 2026S1
+Nome        : Caike Morelli Ciola Fonseca
+Linguagem   : C
+Problema    : https://judge.beecrowd.com/pt/problems/view/1062
+Data        : 26/10/2026
+Objetivo    : Infixa para posfixa
+Dificuldade : Aprender as duas maneiras de escrever uma expressão e transformar a leitura de uma expressão matemática em código
+Uso de IA   : Correção e entender a lógica principal
+-------------------------------------------------------------------------- */
+
 #include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
-int main(){
+// Retorna a prioridade do operador no algoritmo de conversão
+int precedencia(char c) {
+    if (c == '^') return 3;
+    if (c == '*' || c == '/') return 2;
+    if (c == '+' || c == '-') return 1;
+    return 0; // Para parênteses ou operandos
+}
 
+void infixa_para_posfixa(const char *exp) {
+    char pilha[305];
+    int topo = -1;
+
+    for (int i = 0; exp[i] != '\0'; i++) {
+        char c = exp[i];
+
+        if (c == '\n' || c == '\r') continue;
+
+        // Se for letra ou número (operando), imprime direto
+        if (isalnum(c)) {
+            putchar(c);
+        }
+        // Se for '(', empilha
+        else if (c == '(') {
+            pilha[++topo] = c;
+        }
+        // Se for ')', desempilha e imprime até encontrar o '(' correspondente
+        else if (c == ')') {
+            while (topo >= 0 && pilha[topo] != '(') {
+                putchar(pilha[topo--]);
+            }
+            if (topo >= 0 && pilha[topo] == '(') {
+                topo--; // Descarta o '(' da pilha
+            }
+        }
+        // Se for operador (+, -, *, /, ^)
+        else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^') {
+            while (topo >= 0 && precedencia(pilha[topo]) >= precedencia(c)) {
+                putchar(pilha[topo--]);
+            }
+            pilha[++topo] = c;
+        }
+    }
+
+    // Esvazia os operadores restantes da pilha
+    while (topo >= 0) {
+        if (pilha[topo] != '(') {
+            putchar(pilha[topo]);
+        }
+        topo--;
+    }
+    putchar('\n');
+}
+
+int main() {
+    int N;
+    if (scanf("%d", &N) != 1) return 0;
+
+    char expressao[305];
+    while (N--) {
+        scanf("%s", expressao);
+        infixa_para_posfixa(expressao);
+    }
 
     return 0;
 }

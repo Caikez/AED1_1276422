@@ -6,7 +6,7 @@ Problema    : https://judge.beecrowd.com/pt/problems/view/1383
 Data        : 31/08/2026
 Objetivo    : Sudoku usando alocação dinâmica de matrizes
 Dificuldade : 
-Uso de IA   : 
+Uso de IA   : Correção
 -------------------------------------------------------------------------- */
 
 #include <stdio.h>
