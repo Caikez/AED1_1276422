@@ -2,7 +2,7 @@
 Disciplina  : Algortimo e Estrutura de Dados 2026S1
 Nome        : Caike Morelli Ciola Fonseca
 Linguagem   : C
-Problema    : https://judge.beecrowd.com/pt/problems/view/1062
+Problema    : https://judge.beecrowd.com/pt/problems/view/1077
 Data        : 26/10/2026
 Objetivo    : Infixa para posfixa
 Dificuldade : Aprender as duas maneiras de escrever uma expressão e transformar a leitura de uma expressão matemática em código
